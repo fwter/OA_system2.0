@@ -20,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,7 @@ import com.oa.dao.jpa.IOaJobDao;
 import com.oa.pojos.OaDept;
 import com.oa.pojos.OaEmp;
 import com.oa.pojos.OaJob;
+import com.oa.vo.fwt.OaEmpformvo;
 import com.oa.vo.fwt.OaEmpvo;
 
 @Service
@@ -57,6 +60,54 @@ public class Empservice {
 		return list;
  	}
 	
+	public Boolean editEmp(OaEmpformvo empvo) throws Exception{
+		try {
+			OaEmp emp = empdao.findOne(empvo.getEmpId());
+			OaEmp emp2 = topo(empvo, emp);
+			return true;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new Exception("编辑员工错误"+e.getMessage());
+		}
+	}
+
+	private OaEmp topo(OaEmpformvo empvo, OaEmp emp) throws Exception {
+		emp.setEmpName(empvo.getEmpName());
+		emp.setEmpAddress(empvo.getEmpAddress());
+		emp.setEmpBank(empvo.getEmpBank());
+		emp.setEmpBankid(empvo.getEmpBankid());
+		emp.setEmpBirth(empvo.getEmpBirth().equals("")?null:new SimpleDateFormat("yyyy-MM-dd").parse(empvo.getEmpBirth()));
+		emp.setEmpCardid(empvo.getEmpCardid());
+		emp.setEmpDismission(empvo.getEmpDismission().equals("")?null:new SimpleDateFormat("yyyy-MM-dd").parse(empvo.getEmpDismission()));
+		emp.setEmpEmail(empvo.getEmpEmail());
+		emp.setEmpEme(empvo.getEmpEme());
+		emp.setEmpEmetel(empvo.getEmpEmetel());
+		emp.setEmpEntrydate(empvo.getEmpEntrydate().equals("")?null:new SimpleDateFormat("yyyy-MM-dd").parse(empvo.getEmpEntrydate()));
+		emp.setEmpFileid(empvo.getEmpFileid());
+		emp.setEmpGraduation(empvo.getEmpGraduation().equals("")?null:new SimpleDateFormat("yyyy-MM-dd").parse(empvo.getEmpGraduation()));
+		emp.setEmpHealthy(empvo.getEmpHealthy());
+		emp.setEmpHigh(empvo.getEmpHigh());
+		emp.setEmpLike(empvo.getEmpLike());
+		emp.setEmpMajor(empvo.getEmpMajor());
+		emp.setEmpMaxdegree(empvo.getEmpMaxdegree());
+		emp.setEmpMaxeducation(empvo.getEmpMaxeducation());
+		emp.setEmpMgr(empvo.getEmpMgr());
+		emp.setEmpNation(empvo.getEmpNation());
+		emp.setEmpNationality(empvo.getEmpNationality());
+		emp.setEmpNative(empvo.getEmpNative());
+		emp.setEmpOldname(empvo.getEmpOldname());
+		emp.setEmpPhone(empvo.getEmpPhone());
+		emp.setEmpPhoto(empvo.getEmpPhoto());
+		emp.setEmpQq(empvo.getEmpQq());
+		emp.setEmpRemark(empvo.getEmpRemark());
+		emp.setEmpSchool(empvo.getEmpSchool());
+		emp.setEmpSex(Integer.valueOf(empvo.getEmpSex()));
+		emp.setEmpStation(empvo.getEmpStation());
+		emp.setEmpTel(empvo.getEmpTel());
+		emp.setEmpWeight(empvo.getEmpWeight());
+		return emp;
+	}
 	
 	/**
 	 * 获取员工信息
@@ -65,7 +116,8 @@ public class Empservice {
 	 * @return
 	 */
 	public Map<String,Object> findEmppage(int page,int limit,String dept,String name,String type,String state,String begindate,String enddate){
-		Pageable p = new PageRequest(page-1, limit);
+		Sort sort = new Sort(Direction.DESC,"empId");
+		Pageable p = new PageRequest(page-1, limit,sort);
 		Specification<OaEmp> specification=new Specification<OaEmp>(){
 			
 			@Override
@@ -105,6 +157,21 @@ public class Empservice {
 		dataMap.put("count", empdao.queryEmpcount());
 		dataMap.put("data", list);
 		return dataMap;
+	}
+	
+	public List<OaEmp> findAll(){
+		return empdao.findAll();
+	}
+	
+	
+	/**
+	 * 查询单个员工
+	 * @param empId
+	 * @return
+	 */
+	public OaEmp findOne(String empId){
+		 OaEmp emp = empdao.findOne(empId);
+		 return emp;
 	}
 
 	private List<OaEmpvo> empToVolist(List<OaEmp> list2) {

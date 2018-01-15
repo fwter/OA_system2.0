@@ -183,6 +183,12 @@
   				});
   				return false;
   			});
+  			
+  			table.on('tool(emp)', function(obj){
+  				var data = obj.data;
+  				$("[lay-event=edit]").attr('href','/toEmpform?empId='+data.empId);
+  				
+  			});
 			form.render();
 				
 		});

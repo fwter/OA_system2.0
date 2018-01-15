@@ -2,16 +2,17 @@ package com.oa.controller.fwt;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.oa.service.fwt.Empservice;
-import com.xiaoleilu.hutool.http.HttpRequest;
+import com.oa.vo.ResultMap;
+import com.oa.vo.fwt.OaEmpformvo;
 
 @Controller
 public class empcontroller {
@@ -33,9 +34,22 @@ public class empcontroller {
 	}
 	
 	@RequestMapping("/toEmpform")
-	public ModelAndView toEmpform(){
+	public ModelAndView toEmpform(String empId){
 		ModelAndView mv = new ModelAndView("Empform");
-		
+		mv.addObject("emp",es.findAll());
+		mv.addObject("empvo",es.findOne(empId));
 		return mv;
+	}
+	
+	@RequestMapping("/saveEmp")
+	public @ResponseBody Map<String, Object> saveEmp(OaEmpformvo emp,@RequestParam CommonsMultipartFile empPhoto){
+		try {
+			Boolean state = es.editEmp(emp);
+			ResultMap.putObj(state, null, null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			ResultMap.putObj(false, null, e.getMessage());
+		}
+		return ResultMap.getResultMap();
 	}
 }
