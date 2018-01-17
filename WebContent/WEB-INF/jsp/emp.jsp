@@ -80,6 +80,7 @@
 		 <table id="table_emp" lay-filter="emp"></table>
 		<script type="text/html" id="bar">
 			<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+			<a class="layui-btn layui-btn-xs" lay-event="detail">查看详情</a>
 		</script>
 		
 		<script>
@@ -155,7 +156,7 @@
 				],
 				id: 'testReload',
 				page: true,
-				limits:[5,10,15,20],
+				limit:2,
 				height: "full"
 			});
 			
@@ -187,7 +188,7 @@
   			table.on('tool(emp)', function(obj){
   				var data = obj.data;
   				$("[lay-event=edit]").attr('href','/toEmpform?empId='+data.empId);
-  				
+  				$("[lay-event=detail]").attr('href','/toEmpdetail?empId='+data.empId);
   			});
 			form.render();
 				

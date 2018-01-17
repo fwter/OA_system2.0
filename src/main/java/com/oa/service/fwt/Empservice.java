@@ -60,6 +60,17 @@ public class Empservice {
 		return list;
  	}
 	
+	public void editImg(String id,String img){
+		try {
+			OaEmp emp = empdao.findOne(id);
+			emp.setEmpPhoto(img);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+		}
+	}
+	
 	public Boolean editEmp(OaEmpformvo empvo) throws Exception{
 		try {
 			OaEmp emp = empdao.findOne(empvo.getEmpId());
@@ -139,10 +150,10 @@ public class Empservice {
 					list.add(cb.equal(root.get("empWorkstate").as(String.class), state));
 				}
 				if(!("".equals(begindate)) && begindate != null){
-					list.add(cb.greaterThan(root.get("empEntrydate"), toDate(begindate)));
+					list.add(cb.greaterThanOrEqualTo(root.get("empEntrydate"), toDate(begindate)));
 				}
 				if(!("".equals(enddate)) && enddate != null){
-					list.add(cb.lessThan(root.get("empEntrydate"), toDate(enddate)));
+					list.add(cb.lessThanOrEqualTo(root.get("empEntrydate"), toDate(enddate)));
 				}
 				
 				
@@ -154,7 +165,7 @@ public class Empservice {
 		List<OaEmpvo> list = empToVolist(pa.getContent());
 		Map<String, Object> dataMap=new HashMap<>();
 		dataMap.put("code", 0);
-		dataMap.put("count", empdao.queryEmpcount());
+		dataMap.put("count", empdao.count(specification));
 		dataMap.put("data", list);
 		return dataMap;
 	}

@@ -65,8 +65,14 @@
 	    		<input type="hidden" value="${empvo.empId }" name = "empId">
 	    	</td>
 	    	<td class="dangan_td3 dangan_div_img" rowspan="6" >
-	    		<div class=" layui-upload" id="upl" name="empPhoto">
-	    			<img src="../resources/person.png" width="247px" height="249px" id="img">
+	    		<div class=" layui-upload" id="upl">
+	    			<c:if test="${empty empvo.empPhoto }">
+	    				<img src="../resources/person.png" width="247px" height="249px" id="img">
+	    			</c:if>
+	    			<c:if test="${not empty empvo.empPhoto }">
+	    				<img src="../resources/${empvo.empPhoto}" width="247px" height="249px" id="img">
+	    			</c:if>
+	    			
 	    		</div>
 	    		
 	    	</td>
@@ -156,7 +162,8 @@
 	    			
 	    		</div>
 	    	</td>
-	    	<td class="dangan_td1" colspan="3" style="background: white"></td>
+	    	<td class="dangan_td1" colspan="3" style="background: white">
+	    	</td>
 	    	
 	    </tr>
 		<tr>
@@ -408,30 +415,34 @@ layui.use(['form','upload','laydate'], function(){
 
   upload.render({
   	elem:'#upl',
-  	bindAction:'#submit',
-  	url:'/saveEmp',
-  	auto:false,
-  	choose:function(obj){
+  	url:'/saveImg',
+  	accept:'images',
+  	data:{id:$("[name=empId]").val()},
+  	drag:true,
+  	before:function(obj){
   		$(".layui-upload-choose").text();
   		obj.preview(function(index, file, result){
       	
       	$("#img").attr('src',result); //得到文件base64编码，比如图片
-      
       //这里还可以做一些 append 文件列表 DOM 的操作
       
       //obj.upload(index, file); //对上传失败的单个文件重新上传，一般在某个事件中使用
       //delete files[index]; //删除列表中对应的文件，一般在某个事件中使用
     });
+  	},
+  	error:function(index,upload){
+  		layer.closeAll();
   	}
   });
   
+ 
   $("[name=empMaxdegree]").val("${empvo.empMaxdegree }");
   $("[name=empMaxeducation]").val("${empvo.empMaxeducation }");
   $("[name=empMgr]").val("${empvo.empMgr }");
   form.render();
   
-  form.on('submit(formDemo)',function(data){
-	  $.post('/saveEmp',data.field,function(da){
+   form.on('submit(formDemo)',function(data){
+	 $.post('/saveEmp',data.field,function(da){
 		  if(da.success){
 			  layer.msg('编辑成功',function(){
 				  location="/toEmp";
@@ -439,9 +450,9 @@ layui.use(['form','upload','laydate'], function(){
 		  }else{
 			  layer.alert(da.msg);
 		  }
-	  });
+	  }); 
 	  return false;
-  })
+  }) 
 });
 </script>	
 </body>

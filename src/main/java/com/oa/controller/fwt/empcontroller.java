@@ -1,6 +1,11 @@
 package com.oa.controller.fwt;
 
+import java.io.File;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,15 +46,58 @@ public class empcontroller {
 		return mv;
 	}
 	
-	@RequestMapping("/saveEmp")
-	public @ResponseBody Map<String, Object> saveEmp(OaEmpformvo emp,@RequestParam CommonsMultipartFile empPhoto){
+	@RequestMapping("/toEmpdetail")
+	public ModelAndView toEmpdetail(String empId){
+		ModelAndView mv = new ModelAndView("Empdetail");
+		mv.addObject("emp",es.findAll());
+		mv.addObject("empvo",es.findOne(empId));
+		return mv;
+	}
+	
+	@RequestMapping("/saveImg")
+	public void saveImg(@RequestParam("file") CommonsMultipartFile file, String id, HttpServletRequest request){
 		try {
-			Boolean state = es.editEmp(emp);
-			ResultMap.putObj(state, null, null);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			ResultMap.putObj(false, null, e.getMessage());
+			ServletContext application = request.getServletContext();
+            String root = application.getRealPath("WEB-INF/resources");
+            System.out.println(root);
+            //获取原始文件的扩展名
+            //获取文件的原始名称
+            String oldFileName = file.getOriginalFilename();
+            System.out.println(oldFileName);
+            //找到最后一个.的位置
+            int pos = oldFileName.lastIndexOf('.');
+            //截取出扩展名
+            String ext = oldFileName.substring(pos);
+            System.out.println(ext);
+            //生成一个全球唯一的字符串
+            String newFileName = UUID.randomUUID().toString().toUpperCase();
+            System.out.println(newFileName);
+            //拼成完整的文件名
+            newFileName = newFileName + ext;
+            System.out.println(newFileName);
+            //定义新文件的绝对物理路径
+            File realFile = new File(root,newFileName);
+           
+            //转存...
+            file.transferTo(realFile);
+            es.editImg(id, newFileName);
+            
+		}catch(Exception e){
+			e.printStackTrace();
 		}
-		return ResultMap.getResultMap();
+			
+	}
+	
+	@RequestMapping("/saveEmp")
+	public @ResponseBody Map<String,Object> saveEmp(OaEmpformvo emp){
+	try{
+		Boolean state = es.editEmp(emp);
+		ResultMap.putObj(state, null, null);
+	} catch (Exception e) {
+		e.printStackTrace();
+		// TODO Auto-generated catch block
+		ResultMap.putObj(false, null, e.getMessage());
+	}
+	return ResultMap.getResultMap();
 	}
 }
