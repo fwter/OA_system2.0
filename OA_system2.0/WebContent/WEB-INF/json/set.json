@@ -1,0 +1,24 @@
+{
+	"id":1,
+	"text":"系统",
+	"url":"",
+	"icon":"",
+	"children":[{
+		"id":2,
+		"text":"权限设置",
+		"url":"powerSet.jsp",
+		"icon":"&#xe658;",
+		"children":[]
+	},{
+		"id":3,
+		"text":"菜单角色",
+		"url":"2.jsp",
+		"icon":"&#xe658;",
+		"children":[]
+	},{
+		"id":4,
+		"text":"工作设置",
+		"url":"index.jsp",
+		"icon":"&#xe658;"
+	}]
+}

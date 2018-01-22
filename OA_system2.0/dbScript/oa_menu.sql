@@ -1,0 +1,14 @@
+INSERT INTO `oa_menu`(`menu_id`, `meu_name`, `menu_father`, `menu_link`, `menu_img`, `menu_isvisible`) VALUES (37, '个人', 0, '/gr', NULL, 0);
+INSERT INTO `oa_menu`(`menu_id`, `meu_name`, `menu_father`, `menu_link`, `menu_img`, `menu_isvisible`) VALUES (38, '系统', 0, '/sys', NULL, 0);
+INSERT INTO `oa_menu`(`menu_id`, `meu_name`, `menu_father`, `menu_link`, `menu_img`, `menu_isvisible`) VALUES (39, '流程', 0, '/lc', NULL, 0);
+INSERT INTO `oa_menu`(`menu_id`, `meu_name`, `menu_father`, `menu_link`, `menu_img`, `menu_isvisible`) VALUES (40, '人事', 0, '/rs', NULL, 0);
+INSERT INTO `oa_menu`(`menu_id`, `meu_name`, `menu_father`, `menu_link`, `menu_img`, `menu_isvisible`) VALUES (42, '我的日程', 37, NULL, NULL, 0);
+INSERT INTO `oa_menu`(`menu_id`, `meu_name`, `menu_father`, `menu_link`, `menu_img`, `menu_isvisible`) VALUES (43, '我的去向', 37, NULL, NULL, 0);
+INSERT INTO `oa_menu`(`menu_id`, `meu_name`, `menu_father`, `menu_link`, `menu_img`, `menu_isvisible`) VALUES (44, '菜单设置', 38, NULL, NULL, 0);
+INSERT INTO `oa_menu`(`menu_id`, `meu_name`, `menu_father`, `menu_link`, `menu_img`, `menu_isvisible`) VALUES (45, '角色设置', 38, NULL, NULL, 0);
+INSERT INTO `oa_menu`(`menu_id`, `meu_name`, `menu_father`, `menu_link`, `menu_img`, `menu_isvisible`) VALUES (46, '发起流程', 39, NULL, NULL, 0);
+INSERT INTO `oa_menu`(`menu_id`, `meu_name`, `menu_father`, `menu_link`, `menu_img`, `menu_isvisible`) VALUES (47, '代办流程', 39, NULL, NULL, 0);
+INSERT INTO `oa_menu`(`menu_id`, `meu_name`, `menu_father`, `menu_link`, `menu_img`, `menu_isvisible`) VALUES (48, '人事管理', 40, NULL, NULL, 0);
+INSERT INTO `oa_menu`(`menu_id`, `meu_name`, `menu_father`, `menu_link`, `menu_img`, `menu_isvisible`) VALUES (49, '考核管理', 40, NULL, NULL, 0);
+INSERT INTO `oa_menu`(`menu_id`, `meu_name`, `menu_father`, `menu_link`, `menu_img`, `menu_isvisible`) VALUES (50, '首页', 0, '/sy', NULL, 0);
+INSERT INTO `oa_menu`(`menu_id`, `meu_name`, `menu_father`, `menu_link`, `menu_img`, `menu_isvisible`) VALUES (51, '小日程', 42, '/xrc', NULL, 0);
