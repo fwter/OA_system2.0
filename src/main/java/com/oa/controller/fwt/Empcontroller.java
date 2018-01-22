@@ -20,14 +20,14 @@ import com.oa.vo.ResultMap;
 import com.oa.vo.fwt.OaEmpformvo;
 
 @Controller
-public class empcontroller {
+public class Empcontroller {
 	
 	@Autowired
 	Empservice es;
 	
 	@RequestMapping("/toEmp")
 	public ModelAndView toEmp(){
-		ModelAndView mv = new ModelAndView("emp");
+		ModelAndView mv = new ModelAndView("Emp");
 		mv.addObject("dept", es.findDept());
 		return mv;
 	}

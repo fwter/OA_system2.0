@@ -90,7 +90,7 @@
 		<tr>
 	    	<td class="dangan_td1">性别:</td>
 	    	<td class="dangan_td2">
-	    		<div class="layui-input-block dangan_sexdiv">
+	    		<div class="layui-input-block dangan_sexd`iv">
 	    			<input type="radio" name="empSex" value="1" title="男" ${empvo.empSex==1?"checked":""}>
 					<input type="radio" name="empSex" value="0" title="女" ${empvo.empSex==1?"":"checked"}>
 	    		</div>
@@ -107,13 +107,13 @@
 	    	<td class="dangan_td1">手机:</td>
 	    	<td class="dangan_td2">
 	    		<div class="layui-input-block dangan_div" >
-     			 	<input type="text" name="empPhone" autocomplete="off" class="layui-input dangan_div_input" value="${empvo.empPhone }">
+     			 	<input type="text" name="empPhone" autocomplete="off" lay-verify="phone" class="layui-input dangan_div_input" value="${empvo.empPhone }">
   			    </div>
 	    	</td>
 	    	<td class="dangan_td1">电话:</td>
 	    	<td class="dangan_td2">
 	    		<div class="layui-input-block dangan_div" >
-     			 	<input type="text" name="empTel" autocomplete="off" class="layui-input dangan_div_input" value="${empvo.empTel }">
+     			 	<input type="text" name="empTel" autocomplete="off" lay-verify="number" class="layui-input dangan_div_input" value="${empvo.empTel }">
   			    </div>
 	    	</td>
 	   
@@ -122,13 +122,13 @@
 	    	<td class="dangan_td1">邮箱:</td>
 	    	<td class="dangan_td2">
 	    		<div class="layui-input-block dangan_div" >
-     			 	<input type="text" name="empEmail" autocomplete="off" class="layui-input dangan_div_long_input" value="${empvo.empEmail }">
+     			 	<input type="text" name="empEmail" autocomplete="off" lay-verify="email" class="layui-input dangan_div_long_input" value="${empvo.empEmail }">
   			    </div>
 	    	</td>
 	    	<td class="dangan_td1">QQ:</td>
 	    	<td class="dangan_td2">
 	    		<div class="layui-input-block dangan_div" >
-     			 	<input type="text" name="empQq" autocomplete="off" class="layui-input dangan_div_input" value="${empvo.empQq }">
+     			 	<input type="text" name="empQq" autocomplete="off" lay-verify="number" class="layui-input dangan_div_input" value="${empvo.empQq }">
   			    </div>
 	    	</td>
 	    	
@@ -195,7 +195,7 @@
 	    	<td class="dangan_td1">身份证号码:</td>
 	    	<td class="dangan_td2">
 	    		<div class="layui-input-block dangan_div" >
-     			 	<input type="text" name="empCardid" autocomplete="off" class="layui-input dangan_div_long_input" value="${empvo.empCardid }">
+     			 	<input type="text" name="empCardid" autocomplete="off" lay-verify="cardid" class="layui-input dangan_div_long_input" value="${empvo.empCardid }">
   			    </div>
 	    	</td>
 	    	<td class="dangan_td3"></td>
@@ -440,6 +440,14 @@ layui.use(['form','upload','laydate'], function(){
   $("[name=empMaxeducation]").val("${empvo.empMaxeducation }");
   $("[name=empMgr]").val("${empvo.empMgr }");
   form.render();
+  
+  form.verify({
+	  cardid: function(value, item){
+		  if( !new RegExp("^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$").test(value)){
+			 return "身份证号码格式不合法"; 
+		  }
+	  }
+  });
   
    form.on('submit(formDemo)',function(data){
 	 $.post('/saveEmp',data.field,function(da){

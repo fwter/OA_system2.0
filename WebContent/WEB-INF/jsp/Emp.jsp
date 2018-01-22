@@ -163,7 +163,7 @@
 			form.verify({
 				entryd:function(value,item){
 					if($("#begindate").val() != null && value < $("#begindate").val()){
-						return "结束日期大于开始日期";
+						return "结束日期小于开始日期";
 					}
 				}
 			});
